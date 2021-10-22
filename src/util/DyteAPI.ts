@@ -38,8 +38,8 @@ export namespace DyteAPI {
 
     export namespace RequestTypes {
         interface CreateMeetingAuthorization {
-            waitingRoom: boolean;
-            closed: boolean;
+            waitingRoom?: boolean;
+            closed?: boolean;
         }
 
         export interface CreateMeetingOptions {
@@ -49,6 +49,7 @@ export namespace DyteAPI {
         }
 
         interface AddParticipantOptionsBase {
+            meetingId: string;
             clientSpecificId: string;
             userDetails: Entities.UserDetails;
         }
@@ -117,10 +118,11 @@ export namespace DyteAPI {
             return res.data as ResponseTypes.CreateMeeting;
         }
 
-        async addParticipant(meetingId: string, options: RequestTypes.AddParticipantOptions) {
+        async addParticipant(options: RequestTypes.AddParticipantOptions) {
+            const { meetingId, ...requestOptions } = options;
             const res = await this.requests.post(
                 `/organizations/${this.config.orgId}/meetings/${meetingId}/participant`,
-                options,
+                requestOptions,
             );
             return res.data as ResponseTypes.AddParticipant;
         }
@@ -133,4 +135,12 @@ export namespace DyteAPI {
             return res.data as ResponseTypes.GetPresets;
         }
     }
+}
+
+export function getApi() {
+    return new DyteAPI.Controller({
+        apiBase: process.env.DYTE_API_BASE,
+        apiKey: process.env.DYTE_API_KEY,
+        orgId: process.env.DYTE_ORG_ID,
+    });
 }
