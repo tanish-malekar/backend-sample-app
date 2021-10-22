@@ -7,11 +7,15 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "ttsc",
     "dev": "ts-node-dev --respawn --compiler ttypescript src/app.ts",
-    "start": "node dist/app.js"
+    "start": "node dist/app.js",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dyte-in/sample-app-backend.git"
+  },
+  "engines": {
+    "node": "16.0.0"
   },
   "author": "",
   "license": "ISC",
