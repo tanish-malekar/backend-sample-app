@@ -1,0 +1,136 @@
+import axios, { AxiosInstance } from 'axios';
+
+export namespace DyteAPI {
+    interface Config {
+        apiBase: string;
+        orgId: string;
+        apiKey: string;
+    }
+
+    export namespace Entities {
+        export interface UserDetails {
+            name: string;
+            picture: string;
+        }
+
+        // eslint-disable-next-line no-shadow
+        export enum MeetingStatus {
+            CREATED = 'CREATED',
+            CLOSED = 'CLOSED',
+            USED = 'USED',
+            LIVE = 'LIVE'
+        }
+
+        export interface Meeting {
+            id: string;
+            title: string;
+            roomName: string;
+            status: MeetingStatus;
+        }
+
+        export interface PresetObject {
+            id: string;
+            name: string;
+            description: string;
+            s3URL: string;
+        }
+    }
+
+    export namespace RequestTypes {
+        interface CreateMeetingAuthorization {
+            waitingRoom: boolean;
+            closed: boolean;
+        }
+
+        export interface CreateMeetingOptions {
+            title: string;
+            presetName?: string;
+            authorization?: CreateMeetingAuthorization;
+        }
+
+        interface AddParticipantOptionsBase {
+            clientSpecificId: string;
+            userDetails: Entities.UserDetails;
+        }
+
+        interface AddParticipantWithRole extends AddParticipantOptionsBase {
+            roleName: string;
+        }
+
+        interface AddParticipantWithPreset extends AddParticipantOptionsBase {
+            presetName: string;
+        }
+
+        export type AddParticipantOptions = AddParticipantOptionsBase |
+            AddParticipantWithRole |
+            AddParticipantWithPreset;
+
+    }
+
+    export namespace ResponseTypes {
+        interface APIResponse {
+            success: boolean;
+            message?: string;
+            error?: string;
+            data?: any;
+        }
+
+        export interface CreateMeeting extends APIResponse {
+            data: Entities.Meeting;
+        }
+
+        export interface AddParticipant extends APIResponse {
+            data: {
+                authResponse: {
+                    userAdded: boolean;
+                    authToken: string;
+                }
+            }
+        }
+        export interface GetPresets extends APIResponse {
+            data: {
+                total: number;
+                presets: Entities.PresetObject[];
+            }
+        }
+    }
+
+    export class Controller {
+        config: Config;
+
+        requests: AxiosInstance;
+
+        constructor(
+            config: Config,
+        ) {
+            this.config = config;
+            this.requests = axios.create({
+                baseURL: config.apiBase,
+                headers: {
+                    Authorization: `APIKEY ${config.apiKey}`,
+                },
+            });
+        }
+
+        async createMeeting(options: RequestTypes.CreateMeetingOptions) {
+            const res = await this.requests.post(`/organizations/${this.config.orgId}/meeting`, options);
+            return res.data as ResponseTypes.CreateMeeting;
+        }
+
+        async addParticipant(meetingId: string, options: RequestTypes.AddParticipantOptions) {
+            const res = await this.requests.post(
+                `/organizations/${this.config.orgId}/meetings/${meetingId}/participant`,
+                options,
+            );
+            return res.data as ResponseTypes.AddParticipant;
+        }
+
+        async getPresets() {
+            const res = await this.requests.get(
+                `/organizations/${this.config.orgId}/presets`,
+            );
+
+            return res.data as ResponseTypes.GetPresets;
+        }
+    }
+}
