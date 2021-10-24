@@ -10,7 +10,7 @@ export namespace DyteAPI {
     export namespace Entities {
         export interface UserDetails {
             name: string;
-            picture: string;
+            picture?: string;
         }
 
         // eslint-disable-next-line no-shadow
@@ -50,8 +50,8 @@ export namespace DyteAPI {
 
         interface AddParticipantOptionsBase {
             meetingId: string;
-            clientSpecificId: string;
-            userDetails: Entities.UserDetails;
+            clientSpecificId?: string;
+            userDetails?: Entities.UserDetails;
         }
 
         interface AddParticipantWithRole extends AddParticipantOptionsBase {
