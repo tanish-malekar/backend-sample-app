@@ -4,14 +4,14 @@ import { getApi, DyteAPI } from '../util/DyteAPI';
 
 const router = Router();
 
-router.post('/create', async (req, res) => {
-    if (!is<DyteAPI.RequestTypes.CreateMeetingOptions>(req.body)) {
+router.get('/', async (req, res) => {
+    if (!is<DyteAPI.RequestTypes.GetMeetingsOptions>(req.body)) {
         return res.status(400).json({
             success: false,
         });
     }
 
-    const apiRes = await getApi().createMeeting(req.body);
+    const apiRes = await getApi().getMeetings(req.body);
 
     if (!apiRes.success) {
         return res.status(500).json({

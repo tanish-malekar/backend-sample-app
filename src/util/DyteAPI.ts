@@ -26,6 +26,7 @@ export namespace DyteAPI {
             title: string;
             roomName: string;
             status: MeetingStatus;
+            createdAt: string
         }
 
         export interface PresetObject {
@@ -37,11 +38,17 @@ export namespace DyteAPI {
     }
 
     export namespace RequestTypes {
+
+  
         interface CreateMeetingAuthorization {
             waitingRoom?: boolean;
             closed?: boolean;
         }
 
+        export interface GetMeetingsOptions {
+            limit?:number;
+            offset?:number
+        }
         export interface CreateMeetingOptions {
             title: string;
             presetName?: string;
@@ -94,6 +101,13 @@ export namespace DyteAPI {
                 presets: Entities.PresetObject[];
             }
         }
+
+
+        export interface GetMeetings extends APIResponse {
+            data: {
+                meetings: Entities.Meeting[]
+            }
+        }
     }
 
     export class Controller {
@@ -131,8 +145,17 @@ export namespace DyteAPI {
             const res = await this.requests.get(
                 `/organizations/${this.config.orgId}/presets`,
             );
-
             return res.data as ResponseTypes.GetPresets;
+        }
+
+        async getMeetings(options: RequestTypes.GetMeetingsOptions) {
+ 
+            const res = await this.requests.get(
+                `/organizations/${this.config.orgId}/meetings`,{
+                    params: options
+                }
+            );
+            return res.data as ResponseTypes.GetMeetings;
         }
     }
 }
