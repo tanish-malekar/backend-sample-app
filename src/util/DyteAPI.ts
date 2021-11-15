@@ -152,9 +152,7 @@ export namespace DyteAPI {
  
             const res = await this.requests.get(
                 `/organizations/${this.config.orgId}/meetings`,{
-                    params: {
-                        ...options
-                    }
+                    params: options
                 }
             );
             return res.data as ResponseTypes.GetMeetings;
