@@ -1,9 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
-
 import routes from './routes';
 import logger from './util/logger';
+require('dotenv').config()
 
 async function main() {
     dotenv.config();
