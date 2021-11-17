@@ -50,7 +50,7 @@ export namespace DyteAPI {
             offset?:number
         }
         export interface CreateMeetingOptions {
-            title: string;
+            title?: string;
             presetName?: string;
             authorization?: CreateMeetingAuthorization;
         }
