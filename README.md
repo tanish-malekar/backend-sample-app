@@ -4,19 +4,19 @@
     <img src="https://dyte-uploads.s3.ap-south-1.amazonaws.com/dyte-logo-dark.svg" alt="Logo" width="80">
   </a>
 
-  <h3 align="center">docs-template by dyte</h3>
+  <h3 align="center">backend-sample-app by dyte</h3>
 
   <p align="center">
-    ADD_DESCRIPTION_HERE
+    A NodeJS backend to interact with the Dyte REST API
     <br />
     <a href="https://docs.dyte.in"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://app.dyte.in">View Demo</a>
     ·
-    <a href="https://github.com/dyte-in/docs-template/issues">Report Bug</a>
+    <a href="https://github.com/dyte-in/backend-sample-app/issues">Report Bug</a>
     ·
-    <a href="https://github.com/dyte-in/docs-template/issues">Request Feature</a>
+    <a href="https://github.com/dyte-in/backend-sample-app/issues">Request Feature</a>
   </p>
 </p>
 
@@ -26,34 +26,29 @@
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
 
-* [About the Project](#about-the-project)
-  * [Built With](#built-with)
-* [Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
-  * [Installation](#installation)
-* [Usage](#usage)
-* [Roadmap](#roadmap)
-* [Contributing](#contributing)
-* [License](#license)
-* [Contributors](#contributors-)
+- [Table of Contents](#table-of-contents)
+- [About The Project](#about-the-project)
+  - [Built With](#built-with)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [License](#license)
 
 
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
-Here's a blank template to get started:
-**To avoid retyping too much info. Do a search and replace with your text editor for the following:**
-`docs-template`
-
+This is a sample backend application which interacts with the REST API.
 
 ### Built With
 
-* []()
-* []()
-* []()
+* [NodeJS](https://nodejs.org/en/)
+* [ExpressJS](https://expressjs.com/)
+* [Dyte Rest API](https://docs.dyte.io/api/)
 
 
 
@@ -62,40 +57,62 @@ Here's a blank template to get started:
 
 To get a local copy up and running follow these simple steps.
 
+Optionally, deploy directly to heroku using this button!
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+This is an example of how to list things you need to use the software.
 * npm
-```sh
-npm install npm@latest -g
-```
+* NodeJS
 
 ### Installation
  
 1. Clone the repo
 ```sh
-git clone https://github.com/dyte-in/docs-template.git
+git clone https://github.com/dyte-in/backend-sample-app.git
 ```
 2. Install NPM packages
 ```sh
 npm install
 ```
+3. Add a `.env` on the root of the repo, with the following variables:
+  ```
+PORT=3001
+DYTE_API_BASE=https://api.cluster.dyte.in/v1
+DYTE_API_KEY=<Your dyte api key>
+DYTE_ORG_ID=<Your dyte org id>
+```
+4. To run the backend in dev mode (hot reload on changes), run:
+```sh
+npm run dev
+```
 
-
+To run the backend in production mode, run
+```sh
+npm run build
+npm start
+```
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+The backend exposes an express API server with the following routes:
 
-_For more examples, please refer to the [Documentation](https://example.com)._
+| Route               | Method | JSON Body Params                                                                                                                                                                                                                                           | Description                                                                                                                            |
+|---------------------|--------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| /meeting/create     | POST   | {<br>  title: string,<br>  presetName: string,<br>  authorization: {<br>    waitingRoom: boolean,<br>    closed: boolean<br>  }<br>}                                                                                                                       | Create a meeting. For more details, see<br>https://docs.dyte.io/api/#/operations/create_meeting                                        |
+| /participant/create | POST   | {<br>  meetingId: string,<br>  clientSpecificId: string,<br>  userDetails: {<br>    name: string,<br>    picture: string<br>  },<br>  presetName?: string,<br>  roleName?: string,<br>}<br><br>Note: Pass only one of presetName<br>or roleName, NOT both. | Create a participant for a meeting. For more details, see<br>https://docs.dyte.io/api/#/operations/add_participant                     |
+| /meetings           | GET    | N/A                                                                                                                                                                                                                                                        | Get the list of all meetings in the organization. For more<br>details, see<br>https://docs.dyte.io/api/#/operations/get_all_meetings   |
+| /preset/get         | GET    | N/A                                                                                                                                                                                                                                                        | Get the list of all the presets in the organization. For<br>more details, see<br>https://docs.dyte.io/api/#/operations/get_all_presets |
 
 
 
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/dyte-in/docs-template/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/dyte-in/backend-sample-app/issues) for a list of proposed features (and known issues).
 
 
 

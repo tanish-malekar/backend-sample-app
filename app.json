@@ -1,0 +1,6 @@
+{
+    "name": "Dyte Sample Backend App",
+    "description": "A NodeJS backend to interact with the Dyte REST API",
+    "repository": "https://github.com/dyte-in/backend-sample-app",
+    "keywords": ["node", "express"]
+  }
