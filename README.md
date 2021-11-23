@@ -55,12 +55,11 @@ This is a sample backend application which interacts with the REST API.
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To get a local copy up and running follow these simple steps.
-
-Optionally, deploy directly to heroku using this button!
+Deploy directly to heroku using this button!
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
+To get a local copy up and running follow these simple steps.
 ### Prerequisites
 
 This is an example of how to list things you need to use the software.
