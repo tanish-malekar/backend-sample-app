@@ -7,7 +7,7 @@ const router = Router();
 
 router.use('/meeting', MeetingRouter);
 router.use('/participant', ParticipantRouter);
-router.use('/preset', PresetRouter);
+router.use('/presets', PresetRouter);
 router.use('/meetings', MeetingsRouter)
 
 export default router;

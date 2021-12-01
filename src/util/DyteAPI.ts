@@ -55,6 +55,11 @@ export namespace DyteAPI {
             authorization?: CreateMeetingAuthorization;
         }
 
+        export interface GetPresetOptions {
+            limit?:number;
+            offset?:number
+        }
+
         interface AddParticipantOptionsBase {
             meetingId: string;
             clientSpecificId?: string;
@@ -141,9 +146,11 @@ export namespace DyteAPI {
             return res.data as ResponseTypes.AddParticipant;
         }
 
-        async getPresets() {
+        async getPresets(options: RequestTypes.GetPresetOptions) {
             const res = await this.requests.get(
-                `/organizations/${this.config.orgId}/presets`,
+                `/organizations/${this.config.orgId}/presets`,{
+                    params: options
+                }
             );
             return res.data as ResponseTypes.GetPresets;
         }
