@@ -5,6 +5,14 @@ import { getApi, DyteAPI } from '../util/DyteAPI';
 const router = Router();
 
 router.post('/create', async (req, res) => {
+    let name = req.body['name'];
+    if(!name) {
+        return res.status(400).json({
+            success: false,
+            message: 'Empty name not allowed',
+        });
+    }
+
     if (!is<DyteAPI.RequestTypes.AddParticipantOptions>(req.body)) {
         return res.status(400).json({
             success: false,
