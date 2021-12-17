@@ -5,24 +5,31 @@ import { getApi, DyteAPI } from '../util/DyteAPI';
 const router = Router();
 
 router.get('/', async (req, res) => {
-    if (!is<DyteAPI.RequestTypes.GetMeetingsOptions>(req.body)) {
-        return res.status(400).json({
-            success: false,
+    try {
+        if (!is<DyteAPI.RequestTypes.GetMeetingsOptions>(req.body)) {
+            return res.status(400).json({
+                success: false,
+            });
+        }
+
+        const apiRes = await getApi().getMeetings(req.body);
+
+        if (!apiRes.success) {
+            return res.status(500).json({
+                sucess: false,
+            });
+        }
+
+        return res.json({
+            success: true,
+            data: apiRes.data,
         });
-    }
-
-    const apiRes = await getApi().getMeetings(req.body);
-
-    if (!apiRes.success) {
+    } catch (error) {
         return res.status(500).json({
             sucess: false,
+            error: error.message,
         });
     }
-
-    return res.json({
-        success: true,
-        data: apiRes.data,
-    });
 });
 
 export default router;
