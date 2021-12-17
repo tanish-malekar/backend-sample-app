@@ -6,8 +6,8 @@ const router = Router();
 
 router.post('/create', async (req, res) => {
     try {
-        const { name } = req.body.userDetails;
-        if (!name) {
+        const { userDetails } = req.body;
+        if (userDetails && !userDetails.name) {
             return res.status(400).json({
                 success: false,
                 message: 'Empty name not allowed',
