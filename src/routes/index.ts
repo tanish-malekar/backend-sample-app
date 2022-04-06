@@ -1,13 +1,14 @@
 import { Router } from 'express';
-import MeetingRouter from './meeting';
-import ParticipantRouter from './participant';
+import ParticipantRouter from './participants';
 import PresetRouter from './presets';
-import MeetingsRouter from './meetings'
+import MeetingsRouter from './meetings';
+import HealthRouter from './health';
+
 const router = Router();
 
-router.use('/meeting', MeetingRouter);
-router.use('/participant', ParticipantRouter);
+router.use('/health', HealthRouter);
+router.use('/participants', ParticipantRouter);
 router.use('/presets', PresetRouter);
-router.use('/meetings', MeetingsRouter)
+router.use('/meetings', MeetingsRouter);
 
 export default router;

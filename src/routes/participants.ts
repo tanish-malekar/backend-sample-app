@@ -4,15 +4,23 @@ import { getApi, DyteAPI } from '../util/DyteAPI';
 
 const router = Router();
 
-router.post('/create', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
-        if (!is<DyteAPI.RequestTypes.CreateMeetingOptions>(req.body)) {
+        const { userDetails } = req.body;
+        if (userDetails && !userDetails.name) {
+            return res.status(400).json({
+                success: false,
+                message: 'Empty name not allowed',
+            });
+        }
+
+        if (!is<DyteAPI.RequestTypes.AddParticipantOptions>(req.body)) {
             return res.status(400).json({
                 success: false,
             });
         }
 
-        const apiRes = await getApi().createMeeting(req.body);
+        const apiRes = await getApi().addParticipant(req.body);
 
         if (!apiRes.success) {
             return res.status(500).json({
